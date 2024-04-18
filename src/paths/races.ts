@@ -12,6 +12,10 @@ const races = new Elysia()
         ctx.log.debug(ctx.request, "Request");
         const url = `https://yb.tl/JSON/${ctx.params.id}/RaceSetup`;
         const response = await fetch(url);
+        if (response.status !== 200) {
+            ctx.set.status = response.status;
+            throw new Error(response.statusText);
+        }
         const body = await response.text();
         const bodyJson = JSON.parse(body);
         return {
@@ -24,6 +28,10 @@ const races = new Elysia()
         ctx.log.debug(ctx.request, "Request");
         const url = `https://yb.tl/JSON/${ctx.params.id}/leaderboard`;
         const response = await fetch(url);
+        if (response.status !== 200) {
+            ctx.set.status = response.status;
+            throw new Error(response.statusText);
+        }
         const body = await response.text();
         return JSON.parse(body);
     })
@@ -31,6 +39,10 @@ const races = new Elysia()
         ctx.log.debug(ctx.request, "Request");
         const url = `https://yb.tl/BIN/${ctx.params.id}/AllPositions3`;
         const response = await fetch(url);
+        if (response.status !== 200) {
+            ctx.set.status = response.status;
+            throw new Error(response.statusText);
+        }
         const body = await response.arrayBuffer();
         return parsePositions(body);
     })
@@ -38,6 +50,10 @@ const races = new Elysia()
         ctx.log.debug(ctx.request, "Request");
         const url = `https://yb.tl/BIN/${ctx.params.id}/LatestPositions3`;
         const response = await fetch(url);
+        if (response.status !== 200) {
+            ctx.set.status = response.status;
+            throw new Error(response.statusText);
+        }
         const body = await response.arrayBuffer();
         return parsePositions(body);
     })
