@@ -21,6 +21,7 @@ const races = new Elysia()
         return {
             id: bodyJson.url,
             course: bodyJson.course,
+            teams: bodyJson.teams,
             other: bodyJson,
         };
     })
@@ -35,7 +36,7 @@ const races = new Elysia()
         const body = await response.text();
         return JSON.parse(body);
     })
-    .get("/:id/positions-all", async (ctx) => {
+    .get("/:id/teams-positions-all", async (ctx) => {
         ctx.log.debug(ctx.request, "Request");
         const url = `https://yb.tl/BIN/${ctx.params.id}/AllPositions3`;
         const response = await fetch(url);
@@ -46,7 +47,7 @@ const races = new Elysia()
         const body = await response.arrayBuffer();
         return parsePositions(body);
     })
-    .get("/:id/positions-latest", async (ctx) => {
+    .get("/:id/teams-positions-latest", async (ctx) => {
         ctx.log.debug(ctx.request, "Request");
         const url = `https://yb.tl/BIN/${ctx.params.id}/LatestPositions3`;
         const response = await fetch(url);
