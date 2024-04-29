@@ -12,7 +12,7 @@ const app = new Elysia()
         ctx.log.info(ctx.request, "Request");
         return { status: "ok" };
     })
-    .group('/v1/races', (app) => app.use(racesPaths))
+    .group('api/v1/races', (app) => app.use(racesPaths))
     .onError((ctx) => {
         console.error(ctx.error);
         if (ctx.code === 'NOT_FOUND') {
