@@ -21,6 +21,8 @@ const races = new Elysia()
             id: bodyJson.url,
             course: bodyJson.course,
             teams: bodyJson.teams,
+            start: bodyJson.start,
+            stop: bodyJson.stop,
             other: bodyJson,
         };
     })
