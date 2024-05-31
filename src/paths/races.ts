@@ -17,13 +17,15 @@ const races = new Elysia()
     }
     const body = await response.text();
     const bodyJson = JSON.parse(body);
+    const { url: _, course, teams, start, stop, tags, ...other } = bodyJson;
     return {
       id: bodyJson.url,
       course: bodyJson.course,
       teams: bodyJson.teams,
       start: bodyJson.start,
       stop: bodyJson.stop,
-      other: bodyJson,
+      tags: bodyJson.tags,
+      other,
     };
   })
   .get('/:id/leaderboard', async (ctx) => {
