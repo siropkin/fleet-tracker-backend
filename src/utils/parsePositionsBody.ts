@@ -8,7 +8,9 @@ interface Moment {
   lap?: number;
 }
 
-function parsePositions(buffer: ArrayBuffer): Object[] {
+function parsePositionsBody(
+  buffer: ArrayBuffer,
+): { id: number; moments: Moment[] }[] {
   let dataView = new DataView(buffer);
   let flags = dataView.getUint8(0);
   let hasAltitude = 1 === (1 & flags);
@@ -117,4 +119,4 @@ function parsePositions(buffer: ArrayBuffer): Object[] {
   return result;
 }
 
-export default parsePositions;
+export default parsePositionsBody;

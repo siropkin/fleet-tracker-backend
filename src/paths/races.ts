@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import parsePositions from '../utils/parsePositions';
+import parsePositionsBody from '../utils/parsePositionsBody';
 
 const races = new Elysia()
   .get('/', (ctx) => {
@@ -12,6 +12,7 @@ const races = new Elysia()
     ctx.log.debug({ url }, 'Fetching YB');
     const response = await fetch(url);
     if (response.status !== 200) {
+      ctx.log.debug({ status: response.status }, response.statusText);
       ctx.set.status = response.status;
       throw new Error(response.statusText);
     }
@@ -34,6 +35,7 @@ const races = new Elysia()
     ctx.log.debug({ url }, 'Fetching YB');
     const response = await fetch(url);
     if (response.status !== 200) {
+      ctx.log.debug({ status: response.status }, response.statusText);
       ctx.set.status = response.status;
       throw new Error(response.statusText);
     }
@@ -46,11 +48,17 @@ const races = new Elysia()
     ctx.log.debug({ url }, 'Fetching YB');
     const response = await fetch(url);
     if (response.status !== 200) {
+      ctx.log.debug({ status: response.status }, response.statusText);
       ctx.set.status = response.status;
       throw new Error(response.statusText);
     }
     const body = await response.arrayBuffer();
-    return parsePositions(body);
+    const parsedBody = parsePositionsBody(body);
+    // sort by moments
+    parsedBody.forEach((position) => {
+      position.moments.sort((a, b) => a.at - b.at);
+    });
+    return parsedBody;
   })
   .get('/:id/teams-positions-latest', async (ctx) => {
     ctx.log.debug(ctx.request, 'Request');
@@ -58,11 +66,17 @@ const races = new Elysia()
     ctx.log.debug({ url }, 'Fetching YB');
     const response = await fetch(url);
     if (response.status !== 200) {
+      ctx.log.debug({ status: response.status }, response.statusText);
       ctx.set.status = response.status;
       throw new Error(response.statusText);
     }
     const body = await response.arrayBuffer();
-    return parsePositions(body);
+    const parsedBody = parsePositionsBody(body);
+    // sort by moments
+    parsedBody.forEach((position) => {
+      position.moments.sort((a, b) => a.at - b.at);
+    });
+    return parsedBody;
   });
 
 export default races;
