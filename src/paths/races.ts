@@ -18,14 +18,26 @@ const races = new Elysia()
     }
     const body = await response.text();
     const bodyJson = JSON.parse(body);
-    const { url: _, course, teams, start, stop, tags, ...other } = bodyJson;
+    const {
+      url: _,
+      title,
+      course,
+      teams,
+      start,
+      stop,
+      tags,
+      logo,
+      ...other
+    } = bodyJson;
     return {
       id: bodyJson.url,
+      title: bodyJson.title,
       course: bodyJson.course,
       teams: bodyJson.teams,
       start: bodyJson.start,
       stop: bodyJson.stop,
       tags: bodyJson.tags,
+      logo: bodyJson.logo,
       other,
     };
   })
