@@ -12,7 +12,8 @@
     "pino-pretty": "^11.0.0"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "prettier": "3.2.5"
   },
   "module": "src/index.js",
   "bun-create": {

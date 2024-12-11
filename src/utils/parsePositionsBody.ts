@@ -8,7 +8,9 @@ interface Moment {
   lap?: number;
 }
 
-function  parsePositions(buffer: ArrayBuffer): Object[] {
+function parsePositionsBody(
+  buffer: ArrayBuffer,
+): { id: number; moments: Moment[] }[] {
   let dataView = new DataView(buffer);
   let flags = dataView.getUint8(0);
   let hasAltitude = 1 === (1 & flags);
@@ -25,11 +27,11 @@ function  parsePositions(buffer: ArrayBuffer): Object[] {
     let momentsCount = dataView.getUint16(offset);
     let moments = new Array(momentsCount);
     offset += 2;
-    let previousMoment: Moment = {at: 0, dtf: 0, lat: 0, lon: 0, pc: 0};
+    let previousMoment: Moment = { at: 0, dtf: 0, lat: 0, lon: 0, pc: 0 };
 
     for (let i = 0; i < momentsCount; i++) {
       let momentFlags = dataView.getUint8(offset);
-      let moment: Moment = {at: 0, dtf: 0, lat: 0, lon: 0, pc: 0};
+      let moment: Moment = { at: 0, dtf: 0, lat: 0, lon: 0, pc: 0 };
 
       if (128 === (128 & momentFlags)) {
         let deltaTime = dataView.getUint16(offset);
@@ -103,18 +105,18 @@ function  parsePositions(buffer: ArrayBuffer): Object[] {
       previousMoment = moment;
     }
 
-    moments.forEach(function(moment) {
+    moments.forEach(function (moment) {
       moment.lat /= 100000;
       moment.lon /= 100000;
     });
 
     result.push({
       id: id,
-      moments: moments
+      moments: moments,
     });
   }
 
   return result;
 }
 
-export default parsePositions;
+export default parsePositionsBody;
